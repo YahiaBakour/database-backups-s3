@@ -78,7 +78,7 @@ const dbName = match[5]; // Database name
         dumpCommand = `pg_dump "${databaseURI}" -F c > "${filepath}.dump"`;
         break;
       case 'mongodb':
-        dumpCommand = `mongodump --uri="${databaseURI}" --archive="${filepath}.dump"`;
+        dumpCommand = `mongodump --ssl  --uri="${databaseURI}" --archive="${filepath}.dump" --tlsInsecure`;
         break;
       case 'mysql':
         dumpCommand = `mysqldump -u ${dbUser} -p${dbPassword} -h ${dbHostname} -P ${dbPort} ${dbName} > "${filepath}.dump"`;

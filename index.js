@@ -48,13 +48,16 @@ async function processBackup() {
     const databaseIteration = index + 1;
     const totalDatabases = config.databases.length;
 
-    const url = new URL(databaseURI);
-    const dbType = url.protocol.slice(0, -1); // remove trailing colon
-    const dbName = url.pathname.substring(1); // extract db name from URL
-    const dbHostname = url.hostname;
-    const dbUser = url.username;
-    const dbPassword = url.password;
-    const dbPort = url.port;
+
+const pattern = /^mongodb:\/\/(?:([^:]+):([^@]+)@)?(.*?):(.*?)\/(.*?)$/;
+const match = databaseURI.match(pattern);
+
+const dbType = 'mongodb'; // Static, as it's always MongoDB
+const dbUser = match[1] || ''; // Username, empty if not present
+const dbPassword = match[2] || ''; // Password, empty if not present
+const dbHostname = match[3]; // Hostname
+const dbPort = match[4]; // Port
+const dbName = match[5]; // Database name
   
     const date = new Date();
     const yyyy = date.getFullYear();
